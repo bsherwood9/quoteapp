@@ -10,11 +10,27 @@ import axios from "axios";
 function App() {
   const [quotes, setQuotes] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [resultTerm, setResultTerm] = useState([]);
+
   useEffect(() => {
     axios.get("https://quotes-db-harms.herokuapp.com/quotes").then(response => {
       setQuotes(response.data);
+
+      console.log(response.data);
+      setSearchTerm(" ");
     });
   }, []);
+
+  useEffect(() => {
+    const realFinal = quotes.filter(item => {
+      return (
+        item.quote.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.speaker.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+    setResultTerm(realFinal);
+  }, [searchTerm]);
+
   return (
     <div>
       <nav>
@@ -24,7 +40,12 @@ function App() {
         <Route
           path="/quotes"
           render={() => (
-            <Quotes quotes={quotes} setSearchTerm={setSearchTerm} />
+            <Quotes
+              quotes={quotes}
+              resultTerm={resultTerm}
+              setSearchTerm={setSearchTerm}
+              searchTerm={searchTerm}
+            />
           )}
         />
       </nav>
