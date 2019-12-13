@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Form from "./Form";
 
-function Quotes({ quotes, setSearchTerm }) {
+function Quotes({ quotes, setSearchTerm, resultTerm }) {
   return (
     <div>
       <h1>Quotes</h1>
       <Form setSearchTerm={setSearchTerm} />
-      {quotes.map(item => {
+      {resultTerm.map(item => {
         return (
           <>
             <p>{item.quote}</p>
